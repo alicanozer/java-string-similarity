@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Thibault Debatty.
+ * Copyright 2016 Thibault Debatty.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,58 +24,28 @@
 
 package info.debatty.java.stringsimilarity;
 
-import info.debatty.java.utils.SparseIntegerVector;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Thibault Debatty
  */
-public class StringProfileTest {
-    
-    public StringProfileTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+public class NGramTest {
 
     /**
-     * Test of cosineSimilarity method, of class StringProfile.
-     * @throws java.lang.Exception
+     * Test of distance method, of class NGram.
      */
     @Test
-    public void testCosineSimilarity() throws Exception {
-        System.out.println("cosineSimilarity");
-        String s1 = "My first string";
-        String s2 = "My other string...";
-
-        // Let's work with sequences of 2 characters...
-        KShingling ks = new KShingling(2);
-
-        // Pre-compute the profile of strings
-        StringProfile profile1 = ks.getProfile(s1);
-        StringProfile profile2 = ks.getProfile(s2);
-
-        assertEquals(0.516185, profile1.cosineSimilarity(profile2), 0.0001);
+    public void testDistance() {
+        System.out.println("distance");
+        String s0 = "ABABABAB";
+        String s1 = "ABCABCABCABC";
+        String s2 = "POIULKJH";
+        NGram ngram = new NGram();
+        System.out.println(ngram.distance(s0, s1));
+        System.out.println(ngram.distance(s0, s2));
+        Assert.assertTrue(ngram.distance(s0, s1) < ngram.distance(s0, s2));
     }
 
-    
 }

@@ -3,6 +3,26 @@
 
 A library implementing different string similarity and distance measures. A dozen of algorithms (including Levenshtein edit distance and sibblings, Jaro-Winkler, Longest Common Subsequence, cosine similarity etc.) are currently implemented. Check the summary table below for the complete list...
 
+* [Download](#download)
+* [Overview](#overview)
+* [Normalized, metric, similarity and distance](#normalized-metric-similarity-and-distance)
+* [Shingles (n-gram) based similarity and distance](#shingles-n-gram-based-similarity-and-distance)
+* [Levenshtein](#levenshtein)
+* [Normalized Levenshtein](#normalized-levenshtein)
+* [Weighted Levenshtein](#weighted-levenshtein)
+* [Damerau-Levenshtein](#damerau-levenshtein)
+* [Optimal String Alignment](#optimal-string-alignment)
+* [Jaro-Winkler](#jaro-winkler)
+* [Longest Common Subsequence](#longest-common-subsequence)
+* [Metric Longest Common Subsequence](#metric-longest-common-subsequence)
+* [N-Gram](#n-gram)
+* [Shingle (n-gram) based algorithms](#shingle-n-gram-based-algorithms)
+  * [Q-Gram](#shingle-n-gram-based-algorithms)
+  * [Cosine similarity](#shingle-n-gram-based-algorithms)
+  * [Jaccard index](#shingle-n-gram-based-algorithms)
+  * [Sorensen-Dice coefficient](#shingle-n-gram-based-algorithms)
+* [Users](#users)
+
 
 ## Download
 Using maven:
@@ -16,7 +36,7 @@ Using maven:
 
 Or check the [releases](https://github.com/tdebatty/java-string-similarity/releases).
 
-## Summary
+## Overview
 
 The main characteristics of each implemented algorithm are presented below. The "cost" column gives an estimation of the computational cost to compute the similarity between two strings of length m and n respectively.
 
@@ -26,7 +46,7 @@ The main characteristics of each implemented algorithm are presented below. The 
 | [Normalized Levenshtein](#normalized-levenshtein)	|distance<br>similarity	| Yes 			| No 		| 	      | O(m*n) <sup>1</sup> |
 | [Weighted Levenshtein](#weighted-levenshtein)		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1</sup> |
 | [Damerau-Levenshtein](#damerau-levenshtein) <sup>3</sup> 	|distance 				| No 			| Yes 		| 	      | O(m*n) <sup>1</sup> |
-| Optimal String Alignment <sup>3</sup> |not implemented yet | No 			| No 		| 	      | O(m*n) <sup>1</sup> |
+| [Optimal String Alignment](#optimal-string-alignment) <sup>3</sup> |distance | No 			| No 		| 	      | O(m*n) <sup>1</sup> |
 | [Jaro-Winkler](#jaro-winkler) 		|similarity<br>distance	| Yes  			| No 		| 	      | O(m*n) |
 | [Longest Common Subsequence](#longest-common-subsequence) 		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1,2</sup> |
 | [Metric Longest Common Subsequence](#metric-longest-common-subsequence) |distance   			| Yes 			| Yes  		| 	      | O(m*n) <sup>1,2</sup> |
@@ -191,7 +211,31 @@ Will produce:
 6.0
 ```
 
+## Optimal String Alignment
+The Optimal String Alignment variant of Damerau–Levenshtein (sometimes called the restricted edit distance) computes the number of edit operations needed to make the strings equal under the condition that **no substring is edited more than once**, whereas the true Damerau–Levenshtein presents no such restriction.
+The difference from the algorithm for Levenshtein distance is the addition of one recurrence for the transposition operations.
 
+Note that for the optimal string alignment distance, the triangle inequality does not hold and so it is not a true metric.
+
+```java
+import info.debatty.java.stringsimilarity.*;
+
+public class MyApp {
+
+
+    public static void main(String[] args) {
+        OptimalStringAlignment osa = new OptimalStringAlignment();
+        
+        System.out.println(osa.distance("CA", "ABC"));;
+    }
+}
+```
+
+Will produce:
+
+```
+3.0
+```
 
 ## Jaro-Winkler
 Jaro-Winkler is a string edit distance that was developed in the area of record linkage (duplicate detection) (Winkler, 1990). The Jaro–Winkler distance metric is designed and best suited for short strings such as person names, and to detect typos.
@@ -397,3 +441,8 @@ Jaccard index is a metric distance.
 Similar to Jaccard index, but this time the similarity is computed as 2 * |V1 inter V2| / (|V1| + |V2|).
 
 Distance is computed as 1 - cosine similarity.
+
+## Users
+* [StringSimilarity.NET](https://github.com/feature23/StringSimilarity.NET) a .NET port of java-string-similarity
+
+Use java-string-similarity in your project and want it to be mentioned here? Don't hesitate to drop me a line!

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Thibault Debatty.
+ * Copyright 2016 Thibault Debatty.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,30 @@
  * THE SOFTWARE.
  */
 
-package info.debatty.java.stringsimilarity;
+package info.debatty.java.stringsimilarity.experimental;
 
-import info.debatty.java.utils.SparseBooleanVector;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
- * Set representation of a string (list of occuring shingles/n-grams), without
- * cardinality.
+ *
  * @author Thibault Debatty
  */
-public class StringSet {
-    private final SparseBooleanVector vector;
-    private final KShingling ks;
-    
-    public StringSet(SparseBooleanVector vector, KShingling ks) {
-        this.vector = vector;
-        this.ks = ks;
+public class Sift4Test {
+
+    /**
+     * Test of distance method, of class Sift4.
+     */
+    @Test
+    public void testDistance() {
+        System.out.println("SIFT4 distance");
+        String s1 = "This is the first string";
+        String s2 = "And this is another string";
+        Sift4 sift4 = new Sift4();
+        sift4.setMaxOffset(5);
+        double expResult =  11.0;
+        double result = sift4.distance(s1, s2);
+        assertEquals(expResult, result, 0.0);
     }
-    
-    
-    public double jaccardSimilarity(StringSet other) throws Exception {
-        if (this.ks != other.ks) {
-            throw new Exception("Profiles were not created using the same kshingling object!");
-        }
-        
-        return this.vector.jaccard(other.vector);
-    }
-    
-    public double sorensenDiceSimilarity(StringSet other) throws Exception {
-        if (this.ks != other.ks) {
-            throw new Exception("Profiles were not created using the same kshingling object!");
-        }
-        
-        return 2.0 * this.vector.intersection(other.vector) / (this.vector.size() + other.vector.size());
-    }
+
 }
